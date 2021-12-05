@@ -6,3 +6,5 @@
 
 [netology.md](https://github.com/and1V/Netology.DevOps-HomeWork/blob/main/netology.md.png)
 
+[netology.yaml](https://github.com/and1V/Netology.DevOps-HomeWork/blob/main/netology.yaml.png)
+
