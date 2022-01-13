@@ -56,3 +56,15 @@ _______________
 override.tf.json - расширениния позволяющие переопределить метод базового класса из А в В, например
 + .terraformrc,
 terraform.rc - расширение скрытое и не скрытое конфигурационных файлов интерфейса командной строки (CLI)
+
+______________
+
+## Основы гит 
+
++ [repo github](https://github.com/and1V/Netology.DevOps-HomeWork/tree/main)
+
++ [repo bitbucket](https://bitbucket.org/and1v/netology-devops/src/main/)
+
++ [repo gitlab](https://gitlab.com/and1V/netology-devops/-/tree/main)
+
++ [График веток Фикс,Мейн](https://github.com/and1V/Netology.DevOps-HomeWork/network)
