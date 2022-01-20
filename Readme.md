@@ -70,3 +70,9 @@ ______________
 + [График веток Фикс,Мейн](https://github.com/and1V/Netology.DevOps-HomeWork/network)
 
 ____________________________________________
+
+## Ветвления гит
+
+[Github](https://github.com/and1V/Netology.DevOps-HomeWork)
+[Gitlab](https://gitlab.com/and1V/netology-devops)
+[Bitbucket](https://bitbucket.org/and1v/netology-devops/src/main/)
