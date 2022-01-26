@@ -79,7 +79,7 @@ ____________________________________________
 
 ## Инструменты Гит
 
-1. *git show aefea*
+1. ***git show aefea***
 
 commit aefead2207ef7e2aa5dc81a34aedf0cad4c32545
 
@@ -89,17 +89,17 @@ Date:   Thu Jun 18 10:29:58 2020 -0400
 
     Update CHANGELOG.md
 
-2. *git show 85024d3*
+2. ***git show 85024d3***
 
 commit 85024d3100126de36331c6982bfaac02cdab9e76 (tag: v0.12.23)
 
-3. *git show --pretty=format:' %P' b8d720*
+3. ***git show --pretty=format:' %P' b8d720***
 
 56cd7859e05c36c06b56d013b55a252d0bb7e158 - родительский хэш
 
 56cd7859e05c36c06b56d013b55a252d0bb7e158 - родительский хэш
 
-4. *git log  v0.12.23..v0.12.24  --oneline*
+4. ***git log  v0.12.23..v0.12.24  --oneline***
 
 33ff1c03b (tag: v0.12.24) v0.12.24
 
@@ -121,13 +121,13 @@ dd01a3507 Update CHANGELOG.md
 
 225466bc3 Cleanup after v0.12.23 release
 
-5. *git log -S'func providerSource' --oneline*
+5. ***git log -S'func providerSource' --oneline***
 
 5af1e6234 main: Honor explicit provider_installation CLI config when present
 
 8c928e835 main: Consult local directories as potential mirrors of providers
 
-6.  *git log -L :'func globalPluginDirs':plugins.go --oneline*
+6.  ***git log -L :'func globalPluginDirs':plugins.go --oneline***
 
    78b122055 Remove config.go and update things using its aliases
 
@@ -139,7 +139,7 @@ dd01a3507 Update CHANGELOG.md
 
    8364383c3 Push plugin discovery down into command package
 
-7. *git log -S'func synchronizedWriters'*
+7. ***git log -S'func synchronizedWriters'***
 
    commit 5ac311e2a91e381e2f52234668b49ba670aa0fe5
 Author: ***Martin Atkins*** <mart@degeneration.co.uk>
