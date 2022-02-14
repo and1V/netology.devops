@@ -145,7 +145,7 @@ dd01a3507 Update CHANGELOG.md
 Author: ***Martin Atkins*** <mart@degeneration.co.uk>
 Date:   Wed May 3 16:25:41 2017 -0700
 
-##Работа в терминале №1##
+## Работа в терминале №1
 
 1. ***Установите средство виртуализации Oracle VirtualBox***
 
