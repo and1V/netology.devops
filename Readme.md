@@ -774,31 +774,49 @@ o	удостоверьтесь, что с помощью systemctl процес�
  
 
 Сервис стартует и перезапускается корректно
-1.Проверка после перезапуска работы процесса
+
+1. Проверка после перезапуска работы процесса
 2. Остановка
 3. Проверка работы процесса
 4. Запуск процесса 
 5. Проверка работы процесса
  
 vagrant@vagrant:~$ ps -e |grep node_exporter   
-   1375 ?        00:00:00 node_exporter
-vagrant@vagrant:~$ systemctl stop node_exporter
-==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===
-Authentication is required to stop 'node_exporter.service'.
-Authenticating as: vagrant,,, (vagrant)
-Password: 
-==== AUTHENTICATION COMPLETE ===
-vagrant@vagrant:~$ ps -e |grep node_exporter
-vagrant@vagrant:~$ systemctl start node_exporter
-==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===
-Authentication is required to start 'node_exporter.service'.
-Authenticating as: vagrant,,, (vagrant)
-Password: 
-==== AUTHENTICATION COMPLETE ===
-vagrant@vagrant:~$ ps -e |grep node_exporter
-   1420 ?        00:00:00 node_exporter
-vagrant@vagrant:~$ 
 
+   1375 ?        00:00:00 node_exporter
+
+vagrant@vagrant:~$ systemctl stop node_exporter
+
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===
+
+Authentication is required to stop 'node_exporter.service'.
+
+Authenticating as: vagrant,,, (vagrant)
+
+Password: 
+
+==== AUTHENTICATION COMPLETE ===
+
+
+vagrant@vagrant:~$ ps -e |grep node_exporter
+
+vagrant@vagrant:~$ systemctl start node_exporter
+
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===
+
+Authentication is required to start 'node_exporter.service'.
+
+Authenticating as: vagrant,,, (vagrant)
+
+Password: 
+
+==== AUTHENTICATION COMPLETE ===
+
+vagrant@vagrant:~$ ps -e |grep node_exporter
+
+   1420 ?        00:00:00 node_exporter
+
+vagrant@vagrant:~$ 
 
 Прописан конфигруационный файл:
 vagrant@vagrant:/etc/systemd/system$ cat /etc/systemd/system/node_exporter.service
@@ -814,8 +832,12 @@ WantedBy=default.target
 
 
 при перезапуске переменная окружения выставляется :
-agrant@vagrant:/etc/systemd/system$ sudo cat /proc/1809/environ
+
+
+vagrant@vagrant:/etc/systemd/system$ sudo cat /proc/1809/environ
+
 LANG=en_US.UTF-8LANGUAGE=en_US:PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+
 INVOCATION_ID=0fcb24d52895405c875cbb9cbc28d3ffJOURNAL_STREAM=9:35758MYVAR=some_value
 
 2.	Ознакомьтесь с опциями node_exporter и выводом /metrics по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
@@ -823,22 +845,26 @@ INVOCATION_ID=0fcb24d52895405c875cbb9cbc28d3ffJOURNAL_STREAM=9:35758MYVAR=some_v
 Ответ:
 
 CPU:
+
     node_cpu_seconds_total{cpu="0",mode="idle"} 2238.49
     node_cpu_seconds_total{cpu="0",mode="system"} 16.72
     node_cpu_seconds_total{cpu="0",mode="user"} 6.86
     process_cpu_seconds_total
     
 Memory:
+
     node_memory_MemAvailable_bytes 
     node_memory_MemFree_bytes
     
 Disk(если несколько дисков то для каждого):
+
     node_disk_io_time_seconds_total{device="sda"} 
     node_disk_read_bytes_total{device="sda"} 
     node_disk_read_time_seconds_total{device="sda"} 
     node_disk_write_time_seconds_total{device="sda"}
     
 Network(так же для каждого активного адаптера):
+
     node_network_receive_errs_total{device="eth0"} 
     node_network_receive_bytes_total{device="eth0"} 
     node_network_transmit_bytes_total{device="eth0"}
@@ -860,13 +886,18 @@ Netdata установлена, но проброшен порт 9999, так к
 21:56:36 andiv@upc(0):~/vagrant$ sudo lsof -i :19999
 
 COMMAND   PID    USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+
 netdata 50358 netdata    4u  IPv4 1003958      0t0  TCP localhost:19999 (LISTEN)
+
 
 21:56:39 andiv@upc(0):~/vagrant$ sudo lsof -i :9999
 
 COMMAND     PID USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+
 chrome     4089 andiv   80u  IPv4 1112886      0t0  TCP localhost:38598->localhost:9999 (ESTABLISHED)
+
 VBoxHeadl 52075 andiv   21u  IPv4 1053297      0t0  TCP *:9999 (LISTEN)
+
 VBoxHeadl 52075 andiv   30u  IPv4 1113792      0t0  TCP localhost:9999->localhost:38598 (ESTABLISHED)
 
 информация с vm машины:
