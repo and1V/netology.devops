@@ -856,10 +856,14 @@ config.vm.network "forwarded_port", guest: 19999, host: 19999
 Netdata установлена, но проброшен порт 9999, так как 19999 - занять на хостовой машине под локальный netdata 
 
 информация с хостовой машины:
+
 21:56:36 andiv@upc(0):~/vagrant$ sudo lsof -i :19999
+
 COMMAND   PID    USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
 netdata 50358 netdata    4u  IPv4 1003958      0t0  TCP localhost:19999 (LISTEN)
+
 21:56:39 andiv@upc(0):~/vagrant$ sudo lsof -i :9999
+
 COMMAND     PID USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
 chrome     4089 andiv   80u  IPv4 1112886      0t0  TCP localhost:38598->localhost:9999 (ESTABLISHED)
 VBoxHeadl 52075 andiv   21u  IPv4 1053297      0t0  TCP *:9999 (LISTEN)
@@ -867,6 +871,7 @@ VBoxHeadl 52075 andiv   30u  IPv4 1113792      0t0  TCP localhost:9999->localhos
 
 информация с vm машины:
 vagrant@vagrant:~$ sudo lsof -i :19999
+
 COMMAND  PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
 netdata 1895 netdata    4u  IPv4  30971      0t0  TCP *:19999 (LISTEN)
 netdata 1895 netdata   55u  IPv4  31861      0t0  TCP vagrant:19999->_gateway:38598 (ESTABLISHED)
@@ -880,13 +885,17 @@ netdata 1895 netdata   55u  IPv4  31861      0t0  TCP vagrant:19999->_gateway:38
 Судя по выводу dmesg да, причем даже тип ВМ, так как есть соответсвующая строка: 
 
     vagrant@vagrant:~$ dmesg | grep virtualiz
+
 [    0.002836] CPU MTRRs all blank - virtualized system.
+
 [    0.074550] Booting paravirtualized kernel on KVM
+
 [    4.908209] systemd[1]: Detected virtualization oracle.
 
 
 
 Если сравнить с хостовой машиной то это становится очевидным (ps:хорошо когда такая есть под рукой для обучения :) ):
+
 21:56:42 andiv@upc(0):~/vagrant$ dmesg | grep virtualiz
 
 [    0.048461] Booting paravirtualized kernel on bare hardware
@@ -898,14 +907,17 @@ netdata 1895 netdata   55u  IPv4  31861      0t0  TCP vagrant:19999->_gateway:38
 Ответ:
 
 vagrant@vagrant:~$ /sbin/sysctl -n fs.nr_open
+
 1048576
 
 Это максимальное число открытых дескрипторов для ядра (системы), для пользователя задать больше этого числа нельзя (если не менять). 
+
 Число задается кратное 1024, в данном случае =1024*1024. 
 
 Но макс.предел ОС можно посмотреть так :
 
 vagrant@vagrant:~$ cat /proc/sys/fs/file-max
+
 9223372036854775807
 
  
@@ -917,6 +929,7 @@ vagrant@vagrant:~$ ulimit -Sn
  
 
 vagrant@vagrant:~$ ulimit -Hn
+
 1048576
 
 жесткий лимит на пользователя (не может быть увеличен, только уменьшен)
@@ -928,9 +941,13 @@ vagrant@vagrant:~$ ulimit -Hn
 Ответ:
 
 root@vagrant:~# ps -e | grep sleep
+
    2020 pts/2    00:00:00 sleep
+
 root@vagrant:~# nsenter --target 2020 --pid --mount
+
 root@vagrant:/# ps
+
     PID TTY          TIME CMD
       2 pts/0    00:00:00 bash
      11 pts/0    00:00:00 ps
@@ -946,6 +963,7 @@ root@vagrant:/# ps
 А функционал судя по всему этот:
 
 [ 3099.973235] cgroup: fork rejected by pids controller in /user.slice/user-1000.slice/session-4.scope
+
 [ 3103.171819] cgroup: fork rejected by pids controller in /user.slice/user-1000.slice/session-11.scope
 
 Судя по всему, система на основании этих файлов в пользовательской зоне ресурсов имеет определенное ограничение на создаваемые ресурси 
