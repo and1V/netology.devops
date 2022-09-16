@@ -1023,21 +1023,17 @@ vagrant@vagrant:~$ touch test_hl
 vagrant@vagrant:~$ ln test_hl test_link
 
 vagrant@vagrant:~$ ls -ilh
-
 total 4.0K
-526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_hl
-526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_link
+526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_hl <br/>  
+526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_link <br/>
+vagrant@vagrant:~$ chmod 0755 test_hl <br/>
+vagrant@vagrant:~$ ls -ilh <br/>
+total 4.0K <br/>
+526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_hl <br/>
+526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_link <br/>
+vagrant@vagrant:~$ <br/>
 
-vagrant@vagrant:~$ chmod 0755 test_hl 
-
-vagrant@vagrant:~$ ls -ilh
-
-total 4.0K
-526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_hl
-526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_link
-vagrant@vagrant:~$ 
-
-3.	Сделайте vagrant destroy на имеющийся инстанс Ubuntu. Замените содержимое Vagrantfile следующим:
+3.	Сделайте vagrant destroy на имеющийся инстанс Ubuntu. Замените содержимое Vagrantfile следующим:  
 
 	Vagrant.configure("2") do |config|
 	  config.vm.box = "bento/ubuntu-20.04"
