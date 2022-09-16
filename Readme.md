@@ -1024,14 +1024,14 @@ vagrant@vagrant:~$ ln test_hl test_link
 
 vagrant@vagrant:~$ ls -ilh
 total 4.0K
-526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_hl <br/>  
-526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_link <br/>
-vagrant@vagrant:~$ chmod 0755 test_hl <br/>
-vagrant@vagrant:~$ ls -ilh <br/>
-total 4.0K <br/>
-526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_hl <br/>
-526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_link <br/>
-vagrant@vagrant:~$ <br/>
+526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_hl<br/>  
+526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_link<br/>
+vagrant@vagrant:~$ chmod 0755 test_hl<br/>
+vagrant@vagrant:~$ ls -ilh<br/>
+total 4.0K<br/>
+526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_hl<br/>
+526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_link<br/>
+vagrant@vagrant:~$<br/>
 
 3.	Сделайте vagrant destroy на имеющийся инстанс Ubuntu. Замените содержимое Vagrantfile следующим:  
 
