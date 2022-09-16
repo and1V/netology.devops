@@ -1017,13 +1017,19 @@ root@vagrant:/# ps
 
 Так как hardlink это ссылка на тот же самый файл и имеет тот же inode то права будут одни и теже.
 в качестве эксперемента проверил:
+
 vagrant@vagrant:~$ touch test_hl
+
 vagrant@vagrant:~$ ln test_hl test_link
+
 vagrant@vagrant:~$ ls -ilh
+
 total 4.0K
 526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_hl
 526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_link
+
 vagrant@vagrant:~$ chmod 0755 test_hl 
+
 vagrant@vagrant:~$ ls -ilh
 total 4.0K
 526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_hl
