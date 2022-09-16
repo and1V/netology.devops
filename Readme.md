@@ -1031,6 +1031,7 @@ total 4.0K
 vagrant@vagrant:~$ chmod 0755 test_hl 
 
 vagrant@vagrant:~$ ls -ilh
+
 total 4.0K
 526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_hl
 526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_link
