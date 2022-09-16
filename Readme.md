@@ -1018,20 +1018,24 @@ root@vagrant:/# ps
 Так как hardlink это ссылка на тот же самый файл и имеет тот же inode то права будут одни и теже.
 в качестве эксперемента проверил:
 
-vagrant@vagrant:~$ touch test_hl
-
-vagrant@vagrant:~$ ln test_hl test_link
+<br>vagrant@vagrant:~$ touch test_hl<br/>
+<br>vagrant@vagrant:~$ ln test_hl test_link<br/>
+<br>vagrant@vagrant:~$ ls -ilh<br/>
+<br>total 4.0K<br/>
+<br>526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_hl<br/>
+<br>526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_link<br/>
+<br>vagrant@vagrant:~$ chmod 0755 test_hl<br/>
 
 vagrant@vagrant:~$ ls -ilh
+
 total 4.0K
-526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_hl<br/>  
-526889 -rw-rw-r-- 2 vagrant vagrant  0 Nov 14 11:06 test_link<br/>
-vagrant@vagrant:~$ chmod 0755 test_hl<br/>
-vagrant@vagrant:~$ ls -ilh<br/>
-total 4.0K<br/>
-526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_hl<br/>
-526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_link<br/>
-vagrant@vagrant:~$<br/>
+
+526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_hl
+
+526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_link
+
+
+vagrant@vagrant:~$ 
 
 3.	Сделайте vagrant destroy на имеющийся инстанс Ubuntu. Замените содержимое Vagrantfile следующим:  
 
