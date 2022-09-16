@@ -1325,11 +1325,15 @@ root@vagrant:~# vgdisplay
 root@vagrant:~# lvcreate -L 100M vg1 /dev/md0
 
   Logical volume "lvol0" created.
+
 root@vagrant:~# vgs
+
   VG        #PV #LV #SN Attr   VSize   VFree
   vg1         2   1   0 wz--n-   2.49g 2.39g
   vgvagrant   1   2   0 wz--n- <63.50g    0 
+
 root@vagrant:~# lvs
+
   LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
   lvol0  vg1       -wi-a----- 100.00m                                                    
   root   vgvagrant -wi-ao---- <62.54g                                                    
