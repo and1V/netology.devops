@@ -1560,5 +1560,147 @@ root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 ==> default: Destroying VM and associated drives...
 
 
+## Компьютерные сети №1
+
+1. Работа c HTTP через телнет. Подключитесь утилитой телнет к сайту stackoverflow.com telnet stackoverflow.com 80 отправьте HTTP запрос GET /questions HTTP/1.0 HOST: stackoverflow.com [press enter] [press enter] В ответе укажите полученный HTTP код, что он означает?
+
+Ответ:
+
+andiv@vm netology % telnet stackoverflow.com 80
+Trying 151.101.193.69...
+Connected to stackoverflow.com.
+Escape character is '^]'.
+GET /questions HTTP/1.0
+Host: stackoverflow.com
+
+HTTP/1.1 301 Moved Permanently
+Server: Varnish
+Retry-After: 0
+Location: https://stackoverflow.com/questions
+Content-Length: 0
+Accept-Ranges: bytes
+Date: Sat, 17 Sep 2022 09:44:27 GMT
+Via: 1.1 varnish
+Connection: close
+X-Served-By: cache-hhn4042-HHN
+X-Cache: HIT
+X-Cache-Hits: 0
+X-Timer: S1663407867.398777,VS0,VE0
+Strict-Transport-Security: max-age=300
+X-DNS-Prefetch-Control: off
+
+Connection closed by foreign host.
+
+Код HTTP ответа: 301 
+
+Перенаправление на другой ресурс, или проще говоря - "Редирект", классический код ответа HTTP, который мы получаем в ответ от нашего запроса, в ситуации, когда ресурс имеет другое месторасположения.
+
+2. Повторите задание 1 в браузере, используя консоль разработчика F12. откройте вкладку Network отправьте запрос http://stackoverflow.com найдите первый ответ HTTP сервера, откройте вкладку Headers укажите в ответе полученный HTTP код. проверьте время загрузки страницы, какой запрос обрабатывался дольше всего? приложите скриншот консоли браузера в ответ.
+
+Ответ: код 200 дольше всех обрабатывался stackoverflow 303,67 ms
+
+![avatar](~/Documents/netology/pictures/stack_ms.png)
+
+![avatar](~/Documents/netology/pictures/stack_200_http.png)
 
 
+3. Какой IP адрес у вас в интернете?
+
+Ответ: 185.20.45.14
+
+4. Какому провайдеру принадлежит ваш IP адрес? Какой автономной системе AS? Воспользуйтесь утилитой whois
+
+Ответ:
+
+ netname: NECSTEL-NET descr: OOO "Necstel" origin: AS - AS61068
+
+
+5. Через какие сети проходит пакет, отправленный с вашего компьютера на адрес 8.8.8.8? Через какие AS? Воспользуйтесь утилитой traceroute
+
+Ответ:
+Трассировка маршрута к dns.google [8.8.8.8]
+
+andiv@vm netology.devops % traceroute 8.8.8.8
+traceroute to 8.8.8.8 (8.8.8.8), 64 hops max, 52 byte packets
+ 1  router.lan (192.168.10.1)  9.127 ms  1.764 ms  2.460 ms
+ 2  dns.google (8.8.8.8)  3.743 ms  2.276 ms  1.787 ms
+ 3  185.20.45.1 (185.20.45.1)  2.795 ms  4.606 ms  2.751 ms
+ 4  vrrp8.naukanet.ru (77.94.164.129)  16.229 ms  5.204 ms  2.944 ms
+ 5  77.94.160.77 (77.94.160.77)  8.724 ms  5.182 ms  2.696 ms
+ 6  209.85.148.20 (209.85.148.20)  4.056 ms  4.687 ms  3.355 ms
+ 7  108.170.250.66 (108.170.250.66)  4.558 ms
+    108.170.250.113 (108.170.250.113)  29.452 ms
+    108.170.250.83 (108.170.250.83)  4.710 ms
+ 8  142.251.238.82 (142.251.238.82)  22.338 ms
+    142.251.49.78 (142.251.49.78)  19.110 ms
+    142.251.237.154 (142.251.237.154)  20.903 ms
+ 9  72.14.232.76 (72.14.232.76)  18.888 ms
+    142.250.235.62 (142.250.235.62)  20.865 ms
+    216.239.43.20 (216.239.43.20)  21.829 ms
+10  209.85.246.111 (209.85.246.111)  25.456 ms
+    216.239.49.115 (216.239.49.115)  24.871 ms
+    216.239.58.65 (216.239.58.65)  24.840 ms
+11  * * *
+12  * * *
+13  * * *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  * * *
+19  * * *
+20  * dns.google (8.8.8.8)  21.444 ms  18.233 ms
+
+Проходит через сети:
+
+router.lan (192.168.10.1) - мой роутер
+dns.google (8.8.8.8) - NetName: LVLT-ORG-8-8
+185.20.45.1 - netname: NECSTEL-NET origin: AS61068
+vrrp8.naukanet.ru (77.94.164.129) - Technical Center of Internet
+77.94.160.77 - netname: RU-NAUKANET-20070605
+209.85.148.20 - NetName: GOOGLE NetHandle: NET-209-85-128-0-1
+108.170.250.66 - NetName: GOOGLE NetHandle: NET-108-170-192-0-1
+108.170.250.113 - NetName: GOOGLE NetHandle: NET-108-170-192-0-1
+108.170.250.83 - NetName: GOOGLE NetHandle: NET-108-170-192-0-1 OriginAS: AS15169
+142.251.238.82 - NetName: GOOGLE NetHandle: NET-142-250-0-0-1 OriginAS: AS15169
+72.14.232.76 - NetName: GOOGLE NetHandle: NET-72-0-0-0-0
+209.85.246.111 - NetName: GOOGLE NetHandle: NET-209-0-0-0-0
+
+6. Повторите задание 5 в утилите mtr. На каком участке наибольшая задержка - delay?   
+
+Ответ: наибольшая задержка между 77.94.164.129 (средняя 5.204 ms) и 77.94.160.77 (средняя 5.182 ms)
+
+7. Какие DNS сервера отвечают за доменное имя dns.google? Какие A записи? воспользуйтесь утилитой dig
+
+Ответ:
+
+8.8.8.8
+
+8.8.4.4
+
+;; ANSWER SECTION:
+
+dns.google. 176 IN A 8.8.8.8
+
+dns.google. 176 IN A 8.8.4.4
+
+andiv@vm netology.devops % dig dns.google +nssearch
+
+SOA ns1.zdns.google. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300 from server 216.239.38.114 in 16 ms.
+
+SOA ns1.zdns.google. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300 from server 216.239.36.114 in 19 ms.
+
+SOA ns1.zdns.google. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300 from server 216.239.34.114 in 46 ms.
+
+SOA ns1.zdns.google. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300 from server 216.239.32.114 in 48 ms.
+
+8. Проверьте PTR записи для IP адресов из задания 7. Какое доменное имя привязано к IP? воспользуйтесь утилитой dig
+Ответ:
+
+ANSWER SECTION:
+
+8.8.8.8.in-addr.arpa. 75016 IN PTR dns.google.
+
+ptr адресс - 8.8.8.8.in-addr.arpa.
+
+а доменное имя привязанное dns.google.
