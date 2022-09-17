@@ -1599,9 +1599,9 @@ Connection closed by foreign host.
 
 Ответ: код 200 дольше всех обрабатывался stackoverflow 303,67 ms
 
-![ms](/Users/19954507/Documents//netology/pictures/stack_ms.png)
+![ms](/Users/19954507/Documents//netology/netology.devops/pictures/stack_ms.png)
 
-![http_200](/Users/19954507/Documents/netology/pictures/stack_200_http.png)
+![http_200](/Users/19954507/Documents/netology/netology.devops/pictures/stack_200_http.png)
 
 
 3. Какой IP адрес у вас в интернете?
