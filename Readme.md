@@ -1599,9 +1599,9 @@ Connection closed by foreign host.
 
 Ответ: код 200 дольше всех обрабатывался stackoverflow 303,67 ms
 
-![avatar](~/Documents/netology/pictures/stack_ms.png)
+![ms](/Users/19954507/Documents//netology/pictures/stack_ms.png)
 
-![avatar](~/Documents/netology/pictures/stack_200_http.png)
+![http_200](/Users/19954507/Documents/netology/pictures/stack_200_http.png)
 
 
 3. Какой IP адрес у вас в интернете?
@@ -1621,49 +1621,89 @@ Connection closed by foreign host.
 Трассировка маршрута к dns.google [8.8.8.8]
 
 andiv@vm netology.devops % traceroute 8.8.8.8
+
 traceroute to 8.8.8.8 (8.8.8.8), 64 hops max, 52 byte packets
+
  1  router.lan (192.168.10.1)  9.127 ms  1.764 ms  2.460 ms
+
  2  dns.google (8.8.8.8)  3.743 ms  2.276 ms  1.787 ms
+
  3  185.20.45.1 (185.20.45.1)  2.795 ms  4.606 ms  2.751 ms
+
  4  vrrp8.naukanet.ru (77.94.164.129)  16.229 ms  5.204 ms  2.944 ms
+
  5  77.94.160.77 (77.94.160.77)  8.724 ms  5.182 ms  2.696 ms
+
  6  209.85.148.20 (209.85.148.20)  4.056 ms  4.687 ms  3.355 ms
+
  7  108.170.250.66 (108.170.250.66)  4.558 ms
+
     108.170.250.113 (108.170.250.113)  29.452 ms
+
     108.170.250.83 (108.170.250.83)  4.710 ms
+
  8  142.251.238.82 (142.251.238.82)  22.338 ms
+
     142.251.49.78 (142.251.49.78)  19.110 ms
+
     142.251.237.154 (142.251.237.154)  20.903 ms
+
  9  72.14.232.76 (72.14.232.76)  18.888 ms
+
     142.250.235.62 (142.250.235.62)  20.865 ms
+
     216.239.43.20 (216.239.43.20)  21.829 ms
+
 10  209.85.246.111 (209.85.246.111)  25.456 ms
+
     216.239.49.115 (216.239.49.115)  24.871 ms
+
     216.239.58.65 (216.239.58.65)  24.840 ms
+
 11  * * *
+
 12  * * *
+
 13  * * *
+
 14  * * *
+
 15  * * *
+
 16  * * *
+
 17  * * *
+
 18  * * *
+
 19  * * *
+
 20  * dns.google (8.8.8.8)  21.444 ms  18.233 ms
 
 Проходит через сети:
 
 router.lan (192.168.10.1) - мой роутер
+
 dns.google (8.8.8.8) - NetName: LVLT-ORG-8-8
+
 185.20.45.1 - netname: NECSTEL-NET origin: AS61068
+
 vrrp8.naukanet.ru (77.94.164.129) - Technical Center of Internet
+
 77.94.160.77 - netname: RU-NAUKANET-20070605
+
 209.85.148.20 - NetName: GOOGLE NetHandle: NET-209-85-128-0-1
+
 108.170.250.66 - NetName: GOOGLE NetHandle: NET-108-170-192-0-1
+
 108.170.250.113 - NetName: GOOGLE NetHandle: NET-108-170-192-0-1
+
 108.170.250.83 - NetName: GOOGLE NetHandle: NET-108-170-192-0-1 OriginAS: AS15169
+
 142.251.238.82 - NetName: GOOGLE NetHandle: NET-142-250-0-0-1 OriginAS: AS15169
+
 72.14.232.76 - NetName: GOOGLE NetHandle: NET-72-0-0-0-0
+
 209.85.246.111 - NetName: GOOGLE NetHandle: NET-209-0-0-0-0
 
 6. Повторите задание 5 в утилите mtr. На каком участке наибольшая задержка - delay?   
