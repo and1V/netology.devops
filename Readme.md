@@ -1839,7 +1839,7 @@ In 2012, the IETF defined a Shared Address Space[4] for use in ISP CGN deploymen
  посмотреть все - ip n удалить все ip n flush all удалить один ip n del 192.168.0.1 dev eth0
 
 
-## Командная оболочка Bash: Практические навыки"
+## Командная оболочка Bash: Практические навыки
 
 Обязательная задача 1
 
