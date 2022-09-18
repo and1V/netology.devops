@@ -1744,3 +1744,96 @@ ANSWER SECTION:
 ptr адресс - 8.8.8.8.in-addr.arpa.
 
 а доменное имя привязанное dns.google.
+
+
+## Копьютерные сети №2
+
+1. Проверьте список доступных сетевых интерфейсов на вашем компьютере. Какие команды есть для этого в Linux и в Windows? 
+
+Ответ: 
+
+Windows: 
+
+Для ipv4 GetAdaptersInfo Для Ipv6 GetAdaptersAddresses Можно получить список сетевых адаптеров GetIfTable или GetIfEntry или GetIfTabl, ipconfig /all
+
+Linux: 
+
+nmcli con show
+
+ifocnfig
+
+ip a |awk '/state UP/{print $2}' eth0:
+
+или ip -o a show | cut -d ' ' -f 2,7
+
+или
+
+ip a |grep -i inet | awk '{print $7, $2}'
+
+
+2. Какой протокол используется для распознавания соседа по сетевому интерфейсу? Какой пакет и команды есть в Linux для этого?
+
+Ответ: 
+
+Neighbor Discovery Protocol (NDP) , пакет iproute2
+
+3. Какая технология используется для разделения L2 коммутатора на несколько виртуальных сетей? Какой пакет и команды есть в Linux для этого? Приведите пример конфига.
+
+Ответ: 
+
+vlan и пакет iproute2 
+
+Пример конфига: ip link add link eth0 name eth0.111 type vlan id 111 ip link set dev eth0.111 up ip a add 192.168.111.2/24 dev eth0.111
+
+или
+
+TYPE-Ethernet
+
+VLAN=yes
+
+ONBOOT=yes
+
+BOOTPROTO=static
+
+DEVICE=eth0.111
+
+IPADDR=192.168.111.2
+
+GATEWAY=192.168.111.1
+
+DNS1=8.8.8.8
+
+DNS2=8.8.4.4
+
+4. Какие типы агрегации интерфейсов есть в Linux? Какие опции есть для балансировки нагрузки? Приведите пример конфига.
+
+Ответ:
+ Mode-0(balance-rr Mode-1(active-backup) Mode-2(balance-xor) Mode-3(broadcast) Mode-4(802.3ad) Mode-5(balance-tlb) Mode-6(balance-alb) Б) [root@andiv]# modprobe bonding [root@andiv]# ip addr add 192.168.100.33/24 brd + dev bond0 [root@andiv]# ip link set dev bond0 up [root@andiv]# ifenslave bond0 eth2 eth3 master has no hw address assigned; getting one from slave! The interface eth2 is up, shutting it down it to enslave it. The interface eth3 is up, shutting it down it to enslave it. [root@andiv]# ifenslave bond0 eth2 eth3 [root@andiv]# cat /proc/net/bond0/info Bonding Mode: load balancing (round-robin) MII Status: up MII Polling Interval (ms): 0 Up Delay (ms): 0 Down Delay (ms): 0
+
+Slave Interface: eth2 MII Status: up Link Failure Count: 0
+
+Slave Interface: eth3 MII Status: up Link Failure Count: 0
+
+5. Сколько IP адресов в сети с маской /29 ? Сколько /29 подсетей можно получить из сети с маской /24. Приведите несколько примеров /29 подсетей внутри сети 10.10.10.0/24
+
+Ответ:
+ 8 адресов с маской подсети /29, минус броадкаст и адрес сети - в этой сети может быть 6 хостов 32 шт 29 посетей помещается в 24 подсети примеры: 10.10.10.0/29 10.10.10.8/29 10.10.10.16/29 10.10.10.24/29 10.10.10.32/29
+
+6. Задача: вас попросили организовать стык между 2-мя организациями. Диапазоны 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 уже заняты. Из какой подсети допустимо взять частные IP адреса? Маску выберите из расчета максимум 40-50 хостов внутри подсети. 
+
+Ответ: 
+192.0.0.0/26 на 62 хоста
+
+Можно взять из 100.64.0.0/10
+
+In 2012, the IETF defined a Shared Address Space[4] for use in ISP CGN deployments and NAT devices that can handle the same addresses occurring both on inbound and outbound interfaces. ARIN returned space to the IANA as needed for this allocation and[5] "The allocated address block is 100.64.0.0/10".[4][6]
+
+7. Как проверить ARP таблицу в Linux, Windows? Как очистить ARP кеш полностью? Как из ARP таблицы удалить только один нужный IP? 
+
+Ответ: 
+
+Для windows:
+Посмотреть все ip: arp –a Удалить все ip: netsh interface ip delete arpcache удалить один ip: arp -d 192.168.3.171
+
+ для Linux: 
+ посмотреть все - ip n удалить все ip n flush all удалить один ip n del 192.168.0.1 dev eth0
