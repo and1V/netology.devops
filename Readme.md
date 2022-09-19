@@ -1303,7 +1303,7 @@ root@vagrant:~# mount /dev/vg1/lvol0 /tmp/new
 
 Выполнено:
 
-```
+
 root@vagrant:~# wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
 --2020-11-14 14:53:09--  https://mirror.yandex.ru/ubuntu/ls-lR.gz
 Resolving mirror.yandex.ru (mirror.yandex.ru)... 213.180.204.183, 2a02:6b8::183
