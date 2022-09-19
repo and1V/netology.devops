@@ -1274,6 +1274,7 @@ root@vagrant:~# lvs
 Ответ:
 
 Выполнено:
+
 ```
 root@vagrant:~# mkfs.ext4 /dev/vg1/lvol0
 mke2fs 1.45.5 (07-Jan-2020)
@@ -1290,6 +1291,7 @@ Writing superblocks and filesystem accounting information: done
 Ответ:
 
 Выполнено:
+
 ```
 root@vagrant:~# mkdir /tmp/new
 root@vagrant:~# mount /dev/vg1/lvol0 /tmp/new
@@ -1300,6 +1302,7 @@ root@vagrant:~# mount /dev/vg1/lvol0 /tmp/new
 Ответ:
 
 Выполнено:
+
 ```
 root@vagrant:~# wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
 --2020-11-14 14:53:09--  https://mirror.yandex.ru/ubuntu/ls-lR.gz
@@ -1315,6 +1318,7 @@ total 20012
 -rw-r--r-- 1 root root 20488555 Nov 14 14:17 test.gz
 root@vagrant:~# 
 ```
+
 14.	Прикрепите вывод lsblk.
 
 Ответ:
@@ -1322,6 +1326,7 @@ root@vagrant:~#
 Выполнено:
 
 root@vagrant:~# lsblk
+
 ```
 NAME                 MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
 sda                    8:0    0   64G  0 disk  
@@ -1344,30 +1349,38 @@ sdc                    8:32   0  2.5G  0 disk
     └─vg1-lvol0      253:2    0  100M  0 lvm   /tmp/new
 
 ```
+
 15.	Протестируйте целостность файла:
+
 ```
 	root@vagrant:~# gzip -t /tmp/new/test.gz
 	root@vagrant:~# echo $?
   0
 ```
+
 Ответ:
 
 Выполнено:
+
 ```
 root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 0
 ```
+
 16.	Используя pvmove, переместите содержимое PV с RAID0 на RAID1.
 
 Ответ:
 
 Выполнено:
+
 ```
 root@vagrant:~# pvmove /dev/md0
   /dev/md0: Moved: 12.00%
   /dev/md0: Moved: 100.00%
 ```
+
 root@vagrant:~# lsblk
+
 ```
 NAME                 MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
 sda                    8:0    0   64G  0 disk  
@@ -1390,11 +1403,13 @@ sdc                    8:32   0  2.5G  0 disk
   └─md0                9:0    0  510M  0 raid1 
 root@vagrant:~# 
 ```
+
 17.	Сделайте --fail на устройство в вашем RAID1 md.
 
 Ответ:
 
 Выполнено:
+
 ```
 root@vagrant:~# mdadm /dev/md1 --fail /dev/sdb1
 mdadm: set /dev/sdb1 faulty in /dev/md1
@@ -1418,6 +1433,7 @@ root@vagrant:~# mdadm -D /dev/md1
 
        0       8       17        -      faulty   /dev/sdb1
 ```
+
 18.	Подтвердите выводом dmesg, что RAID1 работает в деградированном состоянии.
 
 Ответ:
@@ -1425,6 +1441,7 @@ root@vagrant:~# mdadm -D /dev/md1
 Выполнено:
 
 root@vagrant:~# dmesg |grep md1
+
 ```
 [  480.422928] md/raid1:md1: not clean -- starting background reconstruction
 [  480.422930] md/raid1:md1: active with 2 out of 2 mirrors
@@ -1434,19 +1451,24 @@ root@vagrant:~# dmesg |grep md1
 [ 2325.890719] md/raid1:md1: Disk failure on sdb1, disabling device.
                md/raid1:md1: Operation continuing on 1 devices.
 ```
+
 19.	Протестируйте целостность файла, несмотря на "сбойный" диск он должен продолжать быть доступен:
+
 ```
 	root@vagrant:~# gzip -t /tmp/new/test.gz
 	root@vagrant:~# echo $?
     0
 ```
+
 Ответ:
 
 Выполнено:
+
 ```
 root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 0
 ```
+
 20.	Погасите тестовый хост, vagrant destroy.
 
 Ответ:
@@ -1454,6 +1476,7 @@ root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 Выполнено:
 
 22:12:43 andiv@upc(0):~/vagrant$ vagrant destroy
+
 ```
     default: Are you sure you want to destroy the 'default' VM? [y/N] y
 ==> default: Forcing shutdown of VM...
@@ -1465,6 +1488,7 @@ root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 1. Работа c HTTP через телнет. Подключитесь утилитой телнет к сайту stackoverflow.com telnet stackoverflow.com 80 отправьте HTTP запрос GET /questions HTTP/1.0 HOST: stackoverflow.com [press enter] [press enter] В ответе укажите полученный HTTP код, что он означает?
 
 Ответ:
+
 ```
 andiv@vm netology % telnet stackoverflow.com 80
 Trying 151.101.193.69...
@@ -1493,6 +1517,7 @@ Connection closed by foreign host.
 
 Код HTTP ответа: 301 
 ```
+
 Перенаправление на другой ресурс, или проще говоря - "Редирект", классический код ответа HTTP, который мы получаем в ответ от нашего запроса, в ситуации, когда ресурс имеет другое месторасположения.
 
 2. Повторите задание 1 в браузере, используя консоль разработчика F12. откройте вкладку Network отправьте запрос http://stackoverflow.com найдите первый ответ HTTP сервера, откройте вкладку Headers укажите в ответе полученный HTTP код. проверьте время загрузки страницы, какой запрос обрабатывался дольше всего? приложите скриншот консоли браузера в ответ.
@@ -1523,6 +1548,7 @@ Connection closed by foreign host.
 andiv@vm netology.devops % traceroute 8.8.8.8
 
 traceroute to 8.8.8.8 (8.8.8.8), 64 hops max, 52 byte packets
+
 ```
  1  router.lan (192.168.10.1)  9.127 ms  1.764 ms  2.460 ms
  2  dns.google (8.8.8.8)  3.743 ms  2.276 ms  1.787 ms
@@ -1553,7 +1579,9 @@ traceroute to 8.8.8.8 (8.8.8.8), 64 hops max, 52 byte packets
 19  * * *
 20  * dns.google (8.8.8.8)  21.444 ms  18.233 ms
 ```
+
 Проходит через сети:
+
 ```
 router.lan (192.168.10.1) - мой роутер
 dns.google (8.8.8.8) - NetName: LVLT-ORG-8-8
@@ -1568,6 +1596,7 @@ vrrp8.naukanet.ru (77.94.164.129) - Technical Center of Internet
 72.14.232.76 - NetName: GOOGLE NetHandle: NET-72-0-0-0-0
 209.85.246.111 - NetName: GOOGLE NetHandle: NET-209-0-0-0-0
 ```
+
 6. Повторите задание 5 в утилите mtr. На каком участке наибольшая задержка - delay?   
 
 Ответ: наибольшая задержка между 77.94.164.129 (средняя 5.204 ms) и 77.94.160.77 (средняя 5.182 ms)
@@ -1575,6 +1604,7 @@ vrrp8.naukanet.ru (77.94.164.129) - Technical Center of Internet
 7. Какие DNS сервера отвечают за доменное имя dns.google? Какие A записи? воспользуйтесь утилитой dig
 
 Ответ:
+
 ```
 8.8.8.8
 8.8.4.4
@@ -1587,13 +1617,16 @@ SOA ns1.zdns.google. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300 fr
 SOA ns1.zdns.google. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300 from server 216.239.34.114 in 46 ms.
 SOA ns1.zdns.google. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300 from server 216.239.32.114 in 48 ms.
 ```
+
 8. Проверьте PTR записи для IP адресов из задания 7. Какое доменное имя привязано к IP? воспользуйтесь утилитой dig
 Ответ:
+
 ```
 ANSWER SECTION:
 8.8.8.8.in-addr.arpa. 75016 IN PTR dns.google.
 ptr адресс - 8.8.8.8.in-addr.arpa.
 ```
+
 а доменное имя привязанное dns.google.
 
 
@@ -1602,6 +1635,7 @@ ptr адресс - 8.8.8.8.in-addr.arpa.
 1. Проверьте список доступных сетевых интерфейсов на вашем компьютере. Какие команды есть для этого в Linux и в Windows? 
 
 Ответ: 
+
 ```
 Windows: 
 
@@ -1622,6 +1656,7 @@ ip a |awk '/state UP/{print $2}' eth0:
 ip a |grep -i inet | awk '{print $7, $2}'
 
 ```
+
 2. Какой протокол используется для распознавания соседа по сетевому интерфейсу? Какой пакет и команды есть в Linux для этого?
 
 Ответ: 
@@ -1631,6 +1666,7 @@ Neighbor Discovery Protocol (NDP) , пакет iproute2
 3. Какая технология используется для разделения L2 коммутатора на несколько виртуальных сетей? Какой пакет и команды есть в Linux для этого? Приведите пример конфига.
 
 Ответ: 
+
 ```
 vlan и пакет iproute2 
 
@@ -1648,9 +1684,11 @@ GATEWAY=192.168.111.1
 DNS1=8.8.8.8
 DNS2=8.8.4.4
 ```
+
 4. Какие типы агрегации интерфейсов есть в Linux? Какие опции есть для балансировки нагрузки? Приведите пример конфига.
 
 Ответ:
+
 ```
  Mode-0(balance-rr Mode-1(active-backup) Mode-2(balance-xor) Mode-3(broadcast) Mode-4(802.3ad) Mode-5(balance-tlb) Mode-6(balance-alb) Б) [root@andiv]# modprobe bonding [root@andiv]# ip addr add 192.168.100.33/24 brd + dev bond0 [root@andiv]# ip link set dev bond0 up [root@andiv]# ifenslave bond0 eth2 eth3 master has no hw address assigned; getting one from slave! The interface eth2 is up, shutting it down it to enslave it. The interface eth3 is up, shutting it down it to enslave it. [root@andiv]# ifenslave bond0 eth2 eth3 [root@andiv]# cat /proc/net/bond0/info Bonding Mode: load balancing (round-robin) MII Status: up MII Polling Interval (ms): 0 Up Delay (ms): 0 Down Delay (ms): 0
 
@@ -1658,12 +1696,15 @@ Slave Interface: eth2 MII Status: up Link Failure Count: 0
 
 Slave Interface: eth3 MII Status: up Link Failure Count: 0
 ```
+
 5. Сколько IP адресов в сети с маской /29 ? Сколько /29 подсетей можно получить из сети с маской /24. Приведите несколько примеров /29 подсетей внутри сети 10.10.10.0/24
 
 Ответ:
+
 ```
  8 адресов с маской подсети /29, минус броадкаст и адрес сети - в этой сети может быть 6 хостов 32 шт 29 посетей помещается в 24 подсети примеры: 10.10.10.0/29 10.10.10.8/29 10.10.10.16/29 10.10.10.24/29 10.10.10.32/29
 ```
+
 6. Задача: вас попросили организовать стык между 2-мя организациями. Диапазоны 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 уже заняты. Из какой подсети допустимо взять частные IP адреса? Маску выберите из расчета максимум 40-50 хостов внутри подсети. 
 
 Ответ: 
@@ -1676,6 +1717,7 @@ In 2012, the IETF defined a Shared Address Space[4] for use in ISP CGN deploymen
 7. Как проверить ARP таблицу в Linux, Windows? Как очистить ARP кеш полностью? Как из ARP таблицы удалить только один нужный IP? 
 
 Ответ: 
+
 ```
 Для windows:
 Посмотреть все ip: arp –a Удалить все ip: netsh interface ip delete arpcache удалить один ip: arp -d 192.168.3.171
@@ -1684,11 +1726,13 @@ In 2012, the IETF defined a Shared Address Space[4] for use in ISP CGN deploymen
  посмотреть все - ip n удалить все ip n flush all удалить один ip n del 192.168.0.1 dev eth0
 
 ```
+
 ## Командная оболочка Bash: Практические навыки
 
 Обязательная задача 1
 
 Есть скрипт:
+
 ```
 a=1
 b=2
@@ -1697,16 +1741,20 @@ d=$a+$b
 e=$(($a+$b))
 Какие значения переменным c,d,e будут присвоены? Почему?
 ```
+
 Знак $ отличает,что хочешь взять строку или переменную. Если $ есть,то это переменная.
+
 ```
 Переменная	Значение	Обоснование
 c	           a+b	    указали текст а не переменные
 d	           1+3	    команда преобразовала вывела значения переменных, но не выполнила арифметические операции так как по умолчанию это строки
 e	           3	      так как теперь за счет скобок мы дали команду на выполнение арифметической операции со значениями переменных
 ```
+
 Обязательная задача 2
 
 На нашем локальном сервере упал сервис и мы написали скрипт, который постоянно проверяет его доступность, записывая дату проверок до тех пор, пока сервис не станет доступным (после чего скрипт должен завершиться). В скрипте допущена ошибка, из-за которой выполнение не может завершиться, при этом место на Жёстком Диске постоянно уменьшается. Что необходимо сделать, чтобы его исправить:
+
 ```
 while ((1==1)
 do
@@ -1717,7 +1765,9 @@ do
 	      fi
 done
 ```
+
 Ваш скрипт:
+
 ```
 2а В условии не хватает закрывающей скобки ) 
 2б Слишком частые проверки забивают файл, нужно добавить sleep $timeout - для задания интервала проверки 
@@ -1733,11 +1783,13 @@ done
         sleep 5
     done
 ```
+
 Обязательная задача 3
 
 Необходимо написать скрипт, который проверяет доступность трёх IP: 192.168.0.1, 173.194.222.113, 87.250.250.242 по 80 порту и записывает результат в файл log. Проверять доступность необходимо пять раз для каждого узла.
 
 Ваш скрипт:
+
 ```
 andiv@andiv:~/bash$ cat check_hosts
 hosts=(192.168.0.1 173.194.222.113 87.250.250.24)
@@ -1752,11 +1804,13 @@ date >>hosts.log
     done
 done
 ```
+
 Обязательная задача 4
 
 Необходимо дописать скрипт из предыдущего задания так, чтобы он выполнялся до тех пор, пока один из узлов не окажется недоступным. Если любой из узлов недоступен - IP этого узла пишется в файл error, скрипт прерывается.
 
 Ваш скрипт:
+
 ```
 Надо добавить в начало скрипта указание списка хостов через переменную, а так же таймаут на ожидания коннекта для курла в цикле укажем выполнять пока переменная res = 0 (в которую занишем результат curl)
 andiv@andiv(0):~/bash$ cat check2_hosts
@@ -1777,10 +1831,12 @@ do
     done
 done
 ```
+
 ## Языки разметки JSON и YAML"
 
 Обязательная задача 1
 Мы выгрузили JSON, который получили через API запрос к нашему сервису:
+
 ```
     { "info" : "Sample JSON output from our service\t",
         "elements" :[
@@ -1795,9 +1851,11 @@ done
         ]
     }
 ```
+
 Нужно найти и исправить все ошибки, которые допускает наш сервис
 
 ОТВЕТ:
+
 ```
    { "info" : "Sample JSON output from our service\t",
         "elements" :[
@@ -1812,10 +1870,12 @@ done
         ]
     }
 ```
+
 Обязательная задача 2
 В прошлый рабочий день мы создавали скрипт, позволяющий опрашивать веб-сервисы и получать их IP. К уже реализованному функционалу нам нужно добавить возможность записи JSON и YAML файлов, описывающих наши сервисы. Формат записи JSON по одному сервису: { "имя сервиса" : "его IP"}. Формат записи YAML по одному сервису: - имя сервиса: его IP. Если в момент исполнения скрипта меняется IP у сервиса - он должен так же поменяться в yml и json файле.
 
 Ваш скрипт:
+
 ```
 import json, socket, sys, yaml
 
@@ -1884,7 +1944,9 @@ def process_host(hostname, known_names):
 if __name__ == "__main__":
   main()
 ```
+
 Вывод скрипта при запуске при тестировании:
+
 ```
 py .\test2.py drive.google.ru google.com  mail.google.com
 drive.google.ru - 87.250.250.242
@@ -1892,11 +1954,15 @@ google.com - 74.125.131.138
 [ERROR] mail.google.ru IP mismatch: 217.69.139.202 94.100.180.201
 mail.google.com - 209.85.233.18
 ```
+
 json-файл(ы), который(е) записал ваш скрипт:
+
 ```
 {"drive.google.com": "173.194.221.194", "google.com": "142.250.184.238", "mail.google.com": "142.250.187.101"}
 ```
+
 yml-файл(ы), который(е) записал ваш скрипт:
+
 ```
 drive.google.com: 142.250.186.174
 google.com: 64.233.165.100
