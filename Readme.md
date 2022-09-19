@@ -1876,7 +1876,7 @@ done
 
 Ваш скрипт:
 
-
+```
 import json, socket, sys, yaml
 
 HISTORY_FILE = 'history'
