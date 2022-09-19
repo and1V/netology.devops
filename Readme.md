@@ -1303,7 +1303,7 @@ root@vagrant:~# mount /dev/vg1/lvol0 /tmp/new
 
 Выполнено:
 
-
+```
 root@vagrant:~# wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
 --2020-11-14 14:53:09--  https://mirror.yandex.ru/ubuntu/ls-lR.gz
 Resolving mirror.yandex.ru (mirror.yandex.ru)... 213.180.204.183, 2a02:6b8::183
@@ -1489,7 +1489,7 @@ root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 
 Ответ:
 
-
+```
 andiv@vm netology % telnet stackoverflow.com 80
 Trying 151.101.193.69...
 Connected to stackoverflow.com.
@@ -1876,7 +1876,7 @@ done
 
 Ваш скрипт:
 
-```
+
 import json, socket, sys, yaml
 
 HISTORY_FILE = 'history'
@@ -1947,7 +1947,7 @@ if __name__ == "__main__":
 
 Вывод скрипта при запуске при тестировании:
 
-
+```
 py .\test2.py drive.google.ru google.com  mail.google.com
 drive.google.ru - 87.250.250.242
 google.com - 74.125.131.138
