@@ -1947,7 +1947,7 @@ if __name__ == "__main__":
 
 Вывод скрипта при запуске при тестировании:
 
-```
+
 py .\test2.py drive.google.ru google.com  mail.google.com
 drive.google.ru - 87.250.250.242
 google.com - 74.125.131.138
