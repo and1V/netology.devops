@@ -762,7 +762,7 @@ set -e - прерывает сессию при любом ненулевом з
 
 
 ## Операционные системы №2
-
+```
 1.	На лекции мы познакомились с node_exporter. В демонстрации его исполняемый файл запускался в background. Этого достаточно для демо, но не для настоящей production-системы, где процессы должны находиться под внешним управлением. Используя знания из лекции по systemd, создайте самостоятельно простой unit-файл для node_exporter:
 o	поместите его в автозагрузку,
 o	предусмотрите возможность добавления опций к запускаемому процессу через внешний файл (посмотрите, например, на systemctl cat cron),
@@ -1017,7 +1017,7 @@ root@vagrant:/# ps
 
 Так как hardlink это ссылка на тот же самый файл и имеет тот же inode то права будут одни и теже.
 в качестве эксперемента проверил:
-```
+
 vagrant@vagrant:~$ touch test_hl
 vagrant@vagrant:~$ ln test_hl test_link
 vagrant@vagrant:~$ ls -ilh
@@ -1031,12 +1031,12 @@ vagrant@vagrant:~$ ls -ilh
 total 4.0K
 526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_hl
 526889 -rwxr-xr-x 2 vagrant vagrant  0 Nov 14 11:06 test_link
-```
+
 
 vagrant@vagrant:~$ 
 
 3.	Сделайте vagrant destroy на имеющийся инстанс Ubuntu. Замените содержимое Vagrantfile следующим:  
-```
+
 	Vagrant.configure("2") do |config|
 	  config.vm.box = "bento/ubuntu-20.04"
 	  config.vm.provider :virtualbox do |vb|
@@ -1048,11 +1048,11 @@ vagrant@vagrant:~$
 	    vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', lvm_experiments_disk1_path]
 	  end
 end
-```
+
 Данная конфигурация создаст новую виртуальную машину с двумя дополнительными неразмеченными дисками по 2.5 Гб.
 
 Ответ:
-```
+
     Настроено:
 root@vagrant:~# lsblk
 NAME                 MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
@@ -1064,21 +1064,21 @@ sda                    8:0    0   64G  0 disk
   └─vgvagrant-swap_1 253:1    0  980M  0 lvm  [SWAP]
 sdb                    8:16   0  2.5G  0 disk 
 sdc                    8:32   0  2.5G  0 disk 
-```
+
 4.	Используя fdisk, разбейте первый диск на 2 раздела: 2 Гб, оставшееся пространство.
 
 Ответ:
 
 Выполнено:
-```
+
 Device     Boot   Start     End Sectors  Size Id Type
 /dev/sdb1          2048 4196351 4194304    2G 83 Linux
 /dev/sdb2       4196352 5242879 1046528  511M 83 Linux
-```
+
 5.	Используя sfdisk, перенесите данную таблицу разделов на второй диск.
 
 Ответ:
-```
+
 root@vagrant:~# sfdisk -d /dev/sdb|sfdisk --force /dev/sdc
 Checking that no-one is using this disk right now ... OK
 Disk /dev/sdc: 2.51 GiB, 2684354560 bytes, 5242880 sectors
@@ -1110,10 +1110,10 @@ The partition table has been altered.
 Calling ioctl() to re-read partition table.
 Syncing disks.
 root@vagrant:~# 
- ```
+ 
 
 результат:
-```
+
 Disk /dev/sdb: 2.51 GiB, 2684354560 bytes, 5242880 sectors
 Disk model: VBOX HARDDISK   
 Units: sectors of 1 * 512 = 512 bytes
@@ -1141,14 +1141,14 @@ Disk identifier: 0xb289fd48
 Device     Boot   Start     End Sectors  Size Id Type
 /dev/sdc1          2048 4196351 4194304    2G 83 Linux
 /dev/sdc2       4196352 5242879 1046528  511M 83 Linux
-```
+
 
 6.	Соберите mdadm RAID1 на паре разделов 2 Гб.
 
 Ответ:
 
 Выполнено:
-```
+
 root@vagrant:~# mdadm --create --verbose /dev/md1 -l 1 -n 2 /dev/sd{b1,c1}
 mdadm: Note: this array has metadata at the start and
     may not be suitable as a boot device.  If you plan to
@@ -1161,13 +1161,13 @@ Continue creating array? y
 mdadm: Defaulting to version 1.2 metadata
 mdadm: array /dev/md1 started.
 root@vagrant:~# 
-```
+
 7.	Соберите mdadm RAID0 на второй паре маленьких разделов.
 
 Ответ:
 
 Выполнено:
-```
+
 root@vagrant:~# mdadm --create --verbose /dev/md0 -l 1 -n 2 /dev/sd{b2,c2}
 mdadm: Note: this array has metadata at the start and
     may not be suitable as a boot device.  If you plan to
@@ -1180,18 +1180,18 @@ Continue creating array? (y/n) y
 mdadm: Defaulting to version 1.2 metadata
 mdadm: array /dev/md0 started.
 root@vagrant:~# 
-```
+
 
 8.	Создайте 2 независимых PV на получившихся md-устройствах.
 
 Ответ:
 
 Выполнено:
-```
+
 root@vagrant:~# pvcreate /dev/md1 /dev/md0
   Physical volume "/dev/md1" successfully created.
   Physical volume "/dev/md0" successfully created.
-```  
+  
   
 
 9.	Создайте общую volume-group на этих двух PV.
@@ -1199,12 +1199,12 @@ root@vagrant:~# pvcreate /dev/md1 /dev/md0
 Ответ:
 
 Выполнено:
-```
+
 root@vagrant:~# vgcreate vg1 /dev/md1 /dev/md0
   Volume group "vg1" successfully created
 
 root@vagrant:~# vgdisplay
-```
+
   --- Volume group ---
   VG Name               vgvagrant
   System ID             
@@ -1246,18 +1246,18 @@ root@vagrant:~# vgdisplay
   Alloc PE / Size       0 / 0   
   Free  PE / Size       638 / 2.49 GiB
   VG UUID               tojQnc-yOx3-L2uF-35cS-agip-bkwo-5Sz4ol
-```
+
 10.	Создайте LV размером 100 Мб, указав его расположение на PV с RAID0.
 
 Ответ:
 
 Выполнено:
-```
+
 root@vagrant:~# lvcreate -L 100M vg1 /dev/md0
   Logical volume "lvol0" created.
-```
+
 root@vagrant:~# vgs
-```
+
   VG        #PV #LV #SN Attr   VSize   VFree
   vg1         2   1   0 wz--n-   2.49g 2.39g
   vgvagrant   1   2   0 wz--n- <63.50g    0 
@@ -1268,14 +1268,14 @@ root@vagrant:~# lvs
   lvol0  vg1       -wi-a----- 100.00m                                                    
   root   vgvagrant -wi-ao---- <62.54g                                                    
   swap_1 vgvagrant -wi-ao---- 980.00m  
-```
+
 11.	Создайте mkfs.ext4 ФС на получившемся LV.
 
 Ответ:
 
 Выполнено:
 
-```
+
 root@vagrant:~# mkfs.ext4 /dev/vg1/lvol0
 mke2fs 1.45.5 (07-Jan-2020)
 Creating filesystem with 25600 4k blocks and 25600 inodes
@@ -1283,7 +1283,7 @@ Allocating group tables: done
 Writing inode tables: done       
 Creating journal (1024 blocks): done
 Writing superblocks and filesystem accounting information: done
-```
+
 
 
 12.	Смонтируйте этот раздел в любую директорию, например, /tmp/new.
@@ -1292,10 +1292,10 @@ Writing superblocks and filesystem accounting information: done
 
 Выполнено:
 
-```
+
 root@vagrant:~# mkdir /tmp/new
 root@vagrant:~# mount /dev/vg1/lvol0 /tmp/new
-```
+
 
 13.	Поместите туда тестовый файл, например wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz.
 
@@ -1303,7 +1303,7 @@ root@vagrant:~# mount /dev/vg1/lvol0 /tmp/new
 
 Выполнено:
 
-```
+
 root@vagrant:~# wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
 --2020-11-14 14:53:09--  https://mirror.yandex.ru/ubuntu/ls-lR.gz
 Resolving mirror.yandex.ru (mirror.yandex.ru)... 213.180.204.183, 2a02:6b8::183
@@ -1317,7 +1317,7 @@ root@vagrant:~# ls -l /tmp/new
 total 20012
 -rw-r--r-- 1 root root 20488555 Nov 14 14:17 test.gz
 root@vagrant:~# 
-```
+
 
 14.	Прикрепите вывод lsblk.
 
@@ -1327,7 +1327,7 @@ root@vagrant:~#
 
 root@vagrant:~# lsblk
 
-```
+
 NAME                 MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
 sda                    8:0    0   64G  0 disk  
 ├─sda1                 8:1    0  512M  0 part  /boot/efi
@@ -1348,24 +1348,24 @@ sdc                    8:32   0  2.5G  0 disk
   └─md0                9:0    0  510M  0 raid1 
     └─vg1-lvol0      253:2    0  100M  0 lvm   /tmp/new
 
-```
+
 
 15.	Протестируйте целостность файла:
 
-```
+
 	root@vagrant:~# gzip -t /tmp/new/test.gz
 	root@vagrant:~# echo $?
   0
-```
+
 
 Ответ:
 
 Выполнено:
 
-```
+
 root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 0
-```
+
 
 16.	Используя pvmove, переместите содержимое PV с RAID0 на RAID1.
 
@@ -1373,15 +1373,15 @@ root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 
 Выполнено:
 
-```
+
 root@vagrant:~# pvmove /dev/md0
   /dev/md0: Moved: 12.00%
   /dev/md0: Moved: 100.00%
-```
+
 
 root@vagrant:~# lsblk
 
-```
+
 NAME                 MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
 sda                    8:0    0   64G  0 disk  
 ├─sda1                 8:1    0  512M  0 part  /boot/efi
@@ -1402,7 +1402,7 @@ sdc                    8:32   0  2.5G  0 disk
 └─sdc2                 8:34   0  511M  0 part  
   └─md0                9:0    0  510M  0 raid1 
 root@vagrant:~# 
-```
+
 
 17.	Сделайте --fail на устройство в вашем RAID1 md.
 
@@ -1410,7 +1410,7 @@ root@vagrant:~#
 
 Выполнено:
 
-```
+
 root@vagrant:~# mdadm /dev/md1 --fail /dev/sdb1
 mdadm: set /dev/sdb1 faulty in /dev/md1
 root@vagrant:~# mdadm -D /dev/md1
@@ -1432,7 +1432,7 @@ root@vagrant:~# mdadm -D /dev/md1
        1       8       33        1      active sync   /dev/sdc1
 
        0       8       17        -      faulty   /dev/sdb1
-```
+
 
 18.	Подтвердите выводом dmesg, что RAID1 работает в деградированном состоянии.
 
@@ -1442,7 +1442,7 @@ root@vagrant:~# mdadm -D /dev/md1
 
 root@vagrant:~# dmesg |grep md1
 
-```
+
 [  480.422928] md/raid1:md1: not clean -- starting background reconstruction
 [  480.422930] md/raid1:md1: active with 2 out of 2 mirrors
 [  480.422945] md1: detected capacity change from 0 to 2144337920
@@ -1450,24 +1450,24 @@ root@vagrant:~# dmesg |grep md1
 [  490.758344] md: md1: resync done.
 [ 2325.890719] md/raid1:md1: Disk failure on sdb1, disabling device.
                md/raid1:md1: Operation continuing on 1 devices.
-```
+
 
 19.	Протестируйте целостность файла, несмотря на "сбойный" диск он должен продолжать быть доступен:
 
-```
+
 	root@vagrant:~# gzip -t /tmp/new/test.gz
 	root@vagrant:~# echo $?
     0
-```
+
 
 Ответ:
 
 Выполнено:
 
-```
+
 root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 0
-```
+
 
 20.	Погасите тестовый хост, vagrant destroy.
 
@@ -1477,11 +1477,11 @@ root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 
 22:12:43 andiv@upc(0):~/vagrant$ vagrant destroy
 
-```
+
     default: Are you sure you want to destroy the 'default' VM? [y/N] y
 ==> default: Forcing shutdown of VM...
 ==> default: Destroying VM and associated drives...
-```
+
 
 ## Компьютерные сети №1
 
@@ -1489,7 +1489,7 @@ root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 
 Ответ:
 
-```
+
 andiv@vm netology % telnet stackoverflow.com 80
 Trying 151.101.193.69...
 Connected to stackoverflow.com.
@@ -1516,7 +1516,7 @@ X-DNS-Prefetch-Control: off
 Connection closed by foreign host.
 
 Код HTTP ответа: 301 
-```
+
 
 Перенаправление на другой ресурс, или проще говоря - "Редирект", классический код ответа HTTP, который мы получаем в ответ от нашего запроса, в ситуации, когда ресурс имеет другое месторасположения.
 
@@ -1549,7 +1549,7 @@ andiv@vm netology.devops % traceroute 8.8.8.8
 
 traceroute to 8.8.8.8 (8.8.8.8), 64 hops max, 52 byte packets
 
-```
+
  1  router.lan (192.168.10.1)  9.127 ms  1.764 ms  2.460 ms
  2  dns.google (8.8.8.8)  3.743 ms  2.276 ms  1.787 ms
  3  185.20.45.1 (185.20.45.1)  2.795 ms  4.606 ms  2.751 ms
@@ -1578,11 +1578,11 @@ traceroute to 8.8.8.8 (8.8.8.8), 64 hops max, 52 byte packets
 18  * * *
 19  * * *
 20  * dns.google (8.8.8.8)  21.444 ms  18.233 ms
-```
+
 
 Проходит через сети:
 
-```
+
 router.lan (192.168.10.1) - мой роутер
 dns.google (8.8.8.8) - NetName: LVLT-ORG-8-8
 185.20.45.1 - netname: NECSTEL-NET origin: AS61068
@@ -1595,7 +1595,7 @@ vrrp8.naukanet.ru (77.94.164.129) - Technical Center of Internet
 142.251.238.82 - NetName: GOOGLE NetHandle: NET-142-250-0-0-1 OriginAS: AS15169
 72.14.232.76 - NetName: GOOGLE NetHandle: NET-72-0-0-0-0
 209.85.246.111 - NetName: GOOGLE NetHandle: NET-209-0-0-0-0
-```
+
 
 6. Повторите задание 5 в утилите mtr. На каком участке наибольшая задержка - delay?   
 
@@ -1605,7 +1605,7 @@ vrrp8.naukanet.ru (77.94.164.129) - Technical Center of Internet
 
 Ответ:
 
-```
+
 8.8.8.8
 8.8.4.4
 ;; ANSWER SECTION:
@@ -1616,16 +1616,16 @@ SOA ns1.zdns.google. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300 fr
 SOA ns1.zdns.google. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300 from server 216.239.36.114 in 19 ms.
 SOA ns1.zdns.google. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300 from server 216.239.34.114 in 46 ms.
 SOA ns1.zdns.google. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300 from server 216.239.32.114 in 48 ms.
-```
+
 
 8. Проверьте PTR записи для IP адресов из задания 7. Какое доменное имя привязано к IP? воспользуйтесь утилитой dig
 Ответ:
 
-```
+
 ANSWER SECTION:
 8.8.8.8.in-addr.arpa. 75016 IN PTR dns.google.
 ptr адресс - 8.8.8.8.in-addr.arpa.
-```
+
 
 а доменное имя привязанное dns.google.
 
@@ -1636,7 +1636,7 @@ ptr адресс - 8.8.8.8.in-addr.arpa.
 
 Ответ: 
 
-```
+
 Windows: 
 
 Для ipv4 GetAdaptersInfo Для Ipv6 GetAdaptersAddresses Можно получить список сетевых адаптеров GetIfTable или GetIfEntry или GetIfTabl, ipconfig /all
@@ -1655,7 +1655,7 @@ ip a |awk '/state UP/{print $2}' eth0:
 
 ip a |grep -i inet | awk '{print $7, $2}'
 
-```
+
 
 2. Какой протокол используется для распознавания соседа по сетевому интерфейсу? Какой пакет и команды есть в Linux для этого?
 
@@ -1667,7 +1667,7 @@ Neighbor Discovery Protocol (NDP) , пакет iproute2
 
 Ответ: 
 
-```
+
 vlan и пакет iproute2 
 
 Пример конфига: ip link add link eth0 name eth0.111 type vlan id 111 ip link set dev eth0.111 up ip a add 192.168.111.2/24 dev eth0.111
@@ -1683,27 +1683,27 @@ IPADDR=192.168.111.2
 GATEWAY=192.168.111.1
 DNS1=8.8.8.8
 DNS2=8.8.4.4
-```
+
 
 4. Какие типы агрегации интерфейсов есть в Linux? Какие опции есть для балансировки нагрузки? Приведите пример конфига.
 
 Ответ:
 
-```
+
  Mode-0(balance-rr Mode-1(active-backup) Mode-2(balance-xor) Mode-3(broadcast) Mode-4(802.3ad) Mode-5(balance-tlb) Mode-6(balance-alb) Б) [root@andiv]# modprobe bonding [root@andiv]# ip addr add 192.168.100.33/24 brd + dev bond0 [root@andiv]# ip link set dev bond0 up [root@andiv]# ifenslave bond0 eth2 eth3 master has no hw address assigned; getting one from slave! The interface eth2 is up, shutting it down it to enslave it. The interface eth3 is up, shutting it down it to enslave it. [root@andiv]# ifenslave bond0 eth2 eth3 [root@andiv]# cat /proc/net/bond0/info Bonding Mode: load balancing (round-robin) MII Status: up MII Polling Interval (ms): 0 Up Delay (ms): 0 Down Delay (ms): 0
 
 Slave Interface: eth2 MII Status: up Link Failure Count: 0
 
 Slave Interface: eth3 MII Status: up Link Failure Count: 0
-```
+
 
 5. Сколько IP адресов в сети с маской /29 ? Сколько /29 подсетей можно получить из сети с маской /24. Приведите несколько примеров /29 подсетей внутри сети 10.10.10.0/24
 
 Ответ:
 
-```
+
  8 адресов с маской подсети /29, минус броадкаст и адрес сети - в этой сети может быть 6 хостов 32 шт 29 посетей помещается в 24 подсети примеры: 10.10.10.0/29 10.10.10.8/29 10.10.10.16/29 10.10.10.24/29 10.10.10.32/29
-```
+
 
 6. Задача: вас попросили организовать стык между 2-мя организациями. Диапазоны 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 уже заняты. Из какой подсети допустимо взять частные IP адреса? Маску выберите из расчета максимум 40-50 хостов внутри подсети. 
 
@@ -1718,14 +1718,14 @@ In 2012, the IETF defined a Shared Address Space[4] for use in ISP CGN deploymen
 
 Ответ: 
 
-```
+
 Для windows:
 Посмотреть все ip: arp –a Удалить все ip: netsh interface ip delete arpcache удалить один ip: arp -d 192.168.3.171
 
  для Linux: 
  посмотреть все - ip n удалить все ip n flush all удалить один ip n del 192.168.0.1 dev eth0
 
-```
+
 
 ## Командная оболочка Bash: Практические навыки
 
@@ -1733,29 +1733,29 @@ In 2012, the IETF defined a Shared Address Space[4] for use in ISP CGN deploymen
 
 Есть скрипт:
 
-```
+
 a=1
 b=2
 c=a+b
 d=$a+$b
 e=$(($a+$b))
 Какие значения переменным c,d,e будут присвоены? Почему?
-```
+
 
 Знак $ отличает,что хочешь взять строку или переменную. Если $ есть,то это переменная.
 
-```
+
 Переменная	Значение	Обоснование
 c	           a+b	    указали текст а не переменные
 d	           1+3	    команда преобразовала вывела значения переменных, но не выполнила арифметические операции так как по умолчанию это строки
 e	           3	      так как теперь за счет скобок мы дали команду на выполнение арифметической операции со значениями переменных
-```
+
 
 Обязательная задача 2
 
 На нашем локальном сервере упал сервис и мы написали скрипт, который постоянно проверяет его доступность, записывая дату проверок до тех пор, пока сервис не станет доступным (после чего скрипт должен завершиться). В скрипте допущена ошибка, из-за которой выполнение не может завершиться, при этом место на Жёстком Диске постоянно уменьшается. Что необходимо сделать, чтобы его исправить:
 
-```
+
 while ((1==1)
 do
 	      curl https://localhost:4757
@@ -1764,11 +1764,11 @@ do
 		            date >> curl.log
 	      fi
 done
-```
+
 
 Ваш скрипт:
 
-```
+
 2а В условии не хватает закрывающей скобки ) 
 2б Слишком частые проверки забивают файл, нужно добавить sleep $timeout - для задания интервала проверки 
 2в Нужно добавить проверку успешности чтобы выйти из цикла например: else exit В итоге так: 
@@ -1782,7 +1782,7 @@ done
         fi
         sleep 5
     done
-```
+
 
 Обязательная задача 3
 
@@ -1790,7 +1790,7 @@ done
 
 Ваш скрипт:
 
-```
+
 andiv@andiv:~/bash$ cat check_hosts
 hosts=(192.168.0.1 173.194.222.113 87.250.250.24)
 timeout=5
@@ -1803,7 +1803,7 @@ date >>hosts.log
         echo "    check" $h status=$? >>hosts.log
     done
 done
-```
+
 
 Обязательная задача 4
 
@@ -1811,7 +1811,7 @@ done
 
 Ваш скрипт:
 
-```
+
 Надо добавить в начало скрипта указание списка хостов через переменную, а так же таймаут на ожидания коннекта для курла в цикле укажем выполнять пока переменная res = 0 (в которую занишем результат curl)
 andiv@andiv(0):~/bash$ cat check2_hosts
 hosts=(192.168.0.1 173.194.222.113 87.250.250.24)
@@ -1830,14 +1830,14 @@ do
 	      fi
     done
 done
-```
+
 
 ## Языки разметки JSON и YAML"
 
 Обязательная задача 1
 Мы выгрузили JSON, который получили через API запрос к нашему сервису:
 
-```
+
     { "info" : "Sample JSON output from our service\t",
         "elements" :[
             { "name" : "first",
@@ -1850,13 +1850,13 @@ done
             }
         ]
     }
-```
+
 
 Нужно найти и исправить все ошибки, которые допускает наш сервис
 
 ОТВЕТ:
 
-```
+
    { "info" : "Sample JSON output from our service\t",
         "elements" :[
             { "name" : "first",
@@ -1869,7 +1869,7 @@ done
             }
         ]
     }
-```
+
 
 Обязательная задача 2
 В прошлый рабочий день мы создавали скрипт, позволяющий опрашивать веб-сервисы и получать их IP. К уже реализованному функционалу нам нужно добавить возможность записи JSON и YAML файлов, описывающих наши сервисы. Формат записи JSON по одному сервису: { "имя сервиса" : "его IP"}. Формат записи YAML по одному сервису: - имя сервиса: его IP. Если в момент исполнения скрипта меняется IP у сервиса - он должен так же поменяться в yml и json файле.
@@ -1943,11 +1943,11 @@ def process_host(hostname, known_names):
 
 if __name__ == "__main__":
   main()
-```
+
 
 Вывод скрипта при запуске при тестировании:
 
-```
+
 py .\test2.py drive.google.ru google.com  mail.google.com
 drive.google.ru - 87.250.250.242
 google.com - 74.125.131.138
@@ -1960,9 +1960,7 @@ json-файл(ы), который(е) записал ваш скрипт:
 
 {"drive.google.com": "173.194.221.194", "google.com": "142.250.184.238", "mail.google.com": "142.250.187.101"}
 
-
 yml-файл(ы), который(е) записал ваш скрипт:
-
 
 drive.google.com: 142.250.186.174
 google.com: 64.233.165.100
