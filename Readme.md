@@ -1489,7 +1489,7 @@ root@vagrant:~# gzip -t /tmp/new/test.gz && echo $?
 
 Ответ:
 
-```
+
 andiv@vm netology % telnet stackoverflow.com 80
 Trying 151.101.193.69...
 Connected to stackoverflow.com.
