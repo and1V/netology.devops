@@ -1876,7 +1876,7 @@ done
 
 Ваш скрипт:
 
-```
+
 import json, socket, sys, yaml
 
 HISTORY_FILE = 'history'
@@ -1953,17 +1953,17 @@ drive.google.ru - 87.250.250.242
 google.com - 74.125.131.138
 [ERROR] mail.google.ru IP mismatch: 217.69.139.202 94.100.180.201
 mail.google.com - 209.85.233.18
-```
+
 
 json-файл(ы), который(е) записал ваш скрипт:
 
-```
+
 {"drive.google.com": "173.194.221.194", "google.com": "142.250.184.238", "mail.google.com": "142.250.187.101"}
-```
+
 
 yml-файл(ы), который(е) записал ваш скрипт:
 
-```
+
 drive.google.com: 142.250.186.174
 google.com: 64.233.165.100
 mail.google.com: 64.233.165.18
